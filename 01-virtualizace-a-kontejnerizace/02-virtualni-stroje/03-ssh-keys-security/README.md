@@ -94,8 +94,11 @@ Teď, když máme klíče, zakážeme hesla úplně. Tím zamezíme útokům há
 2. Najděte (Ctrl+W) řádek `PasswordAuthentication` a změňte ho na:  
    `PasswordAuthentication no`
 
-3. Uložte (`Ctrl+O`, `Enter`) a ukončete (`Ctrl+X`).  
-4. Restartujte službu:
+3. **Důležité:** V novějších systémech (např. Ubuntu 22.04+) může být na konci souboru řádek `Include /etc/ssh/sshd_config.d/*.conf`. Ten způsobí, že se načtou další konfigurační soubory, které mohou naše nastavení přepsat. Pro jistotu tento řádek zakomentujte přidáním `#` na začátek:
+   `#Include /etc/ssh/sshd_config.d/*.conf`
+
+4. Uložte (`Ctrl+O`, `Enter`) a ukončete (`Ctrl+X`).  
+5. Restartujte službu:
    ```bash
    sudo systemctl restart ssh
    ```

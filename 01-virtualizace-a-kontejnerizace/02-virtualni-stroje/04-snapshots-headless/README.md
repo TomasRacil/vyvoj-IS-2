@@ -108,9 +108,16 @@ VirtualBox umí vytvořit tzv. **Linked Clone (Propojený klon)**. Ten sdílí d
     3.  **Důležité:** Musíte vygenerovat novou MAC adresu pro síťovou kartu (volba "Generate new MAC addresses"), jinak budou mít oba stroje v síti konflikt.
     4.  Spusťte oba stroje najednou (původní i klon).
     5.  **Problém:** Pokud necháte síť nastavenou na "NAT", oba stroje budou mít pravděpodobně stejnou IP (10.0.2.15) a neuvidí na sebe.
-    6.  **Řešení (Challenge):** Změňte nastavení sítě obou strojů na **Internal Network** (Vnitřní síť) nebo vytvořte **NAT Network**.
-      * *Tip: Pokud zvolíte Internal Network, možná budete muset nastavit IP adresy ručně, protože tam neběží DHCP server.*
-    6.  **Cíl:**
+    6.  **Řešení (Challenge):**
+        *   **Krok 1: Oprava ID klonu.** Na klonovaném serveru (`Server-B`) musíte vygenerovat nové unikátní ID. Připojte se k němu přes konzoli VirtualBoxu a spusťte:
+            ```bash
+            sudo rm /etc/machine-id
+            sudo systemd-machine-id-setup
+            sudo reboot
+            ```
+        *   **Krok 2: Společná síť.** Změňte nastavení sítě obou strojů na **Internal Network** (Vnitřní síť) nebo vytvořte **NAT Network**.
+            * *Tip: Pokud zvolíte Internal Network, možná budete muset nastavit IP adresy ručně, protože tam neběží DHCP server.*
+    7.  **Cíl:**
       * Zjistěte IP adresu Serveru A (`ip a`).
       * Zjistěte IP adresu Serveru B.
       * Z terminálu Serveru A úspěšně **pingněte** Server B:
