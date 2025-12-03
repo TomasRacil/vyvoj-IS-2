@@ -1,0 +1,10 @@
+{
+  "name": "frontend-dev",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "echo 'Simulace startu Reactu... (Backend běží na portu 5000)' && node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

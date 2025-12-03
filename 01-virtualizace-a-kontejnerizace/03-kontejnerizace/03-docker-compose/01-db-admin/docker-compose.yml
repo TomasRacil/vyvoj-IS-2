@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # Služba 1: Databázový server
+  database:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: student
+      POSTGRES_PASSWORD: heslo
+      POSTGRES_DB: skola_db
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persistence dat (aby nezmizela po restartu)
+    networks:
+      - internal_net
+
+  # Služba 2: Grafické rozhraní pro správu DB
+  admin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80" # Mapujeme port 80 z kontejneru na 8080 našeho PC
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    depends_on:
+      - database # Docker počká, až se spustí DB kontejner (ale nečeká na start služby uvnitř)
+    networks:
+      - internal_net
+
+# Definice svazků
+volumes:
+  db_data:
+
+# Definice sítí
+networks:
+  internal_net:

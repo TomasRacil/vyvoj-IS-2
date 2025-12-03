@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 1. Databáze (Postgres)
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_DB: app_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend-net
+
+  # 2. Backend (Python API)
+  backend:
+    build: ./backend # Místo image říkáme "sestav to ze složky backend"
+    ports:
+      - "5000:5000"
+    environment:
+      # Connection string pro DB. Všimněte si hostname 'db'
+      DATABASE_URL: postgresql://app_user:app_password@db:5432/app_db
+    depends_on:
+      - db
+    networks:
+      - backend-net
+      - frontend-net # Musí vidět na frontend i na DB
+
+  # 3. Frontend (React/Node)
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      # React aplikace běží v prohlížeči uživatele, takže volá API na localhostu
+      REACT_APP_API_URL: http://localhost:5000
+    depends_on:
+      - backend
+    networks:
+      - frontend-net
+
+networks:
+  backend-net: # Síť pro data (API <-> DB)
+  frontend-net: # Síť pro uživatele (Frontend <-> API)
+
+volumes:
+  postgres_data:

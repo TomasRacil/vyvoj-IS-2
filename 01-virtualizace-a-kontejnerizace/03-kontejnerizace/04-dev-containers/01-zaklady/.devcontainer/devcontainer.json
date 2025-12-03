@@ -1,0 +1,21 @@
+{
+	"name": "Moje Python Prostředí",
+	// Použijeme oficiální image od Microsoftu optimalizovaný pro VS Code
+	"image": "mcr.microsoft.com/devcontainers/python:3.11",
+
+	// Zde definujeme nastavení VS Code uvnitř kontejneru
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance"
+			]
+		}
+	},
+
+	// Po vytvoření kontejneru můžeme spustit příkazy (např. instalace knihoven)
+	// "postCreateCommand": "pip install -r requirements.txt",
+
+	// Uživatel uvnitř kontejneru (vscode je defaultní uživatel s sudo právy)
+	"remoteUser": "vscode"
+}

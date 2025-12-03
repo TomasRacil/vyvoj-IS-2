@@ -1,0 +1,24 @@
+{
+	"name": "Frontend (Node.js)",
+	
+	"dockerComposeFile": [
+		"../../docker-compose.yml"
+	],
+	
+	"service": "frontend",
+	
+	// Editor se otevře rovnou ve složce frontend
+	"workspaceFolder": "/workspace/frontend",
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"dbaeumer.vscode-eslint",
+				"esbenp.prettier-vscode"
+			]
+		}
+	},
+
+	"postCreateCommand": "npm install",
+	"remoteUser": "root"
+}
