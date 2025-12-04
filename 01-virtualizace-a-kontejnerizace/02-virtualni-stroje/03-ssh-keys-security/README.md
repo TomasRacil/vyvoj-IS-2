@@ -162,3 +162,11 @@ Zabezpečení SSH klíčem je silné, ale co když vám někdo ukradne notebook 
       * Spusťte `google-authenticator` a naskenujte QR kód do mobilu.
       * Upravte `/etc/pam.d/sshd` (přidejte `auth required pam_google_authenticator.so`) a `/etc/ssh/sshd_config` (hledejte `KbdInteractiveAuthentication`, `AuthenticationMethods`, `ChallengeResponseAuthentication`, `PubkeyAuthentication`, `UsePAM`).
   * **Cíl:** Po zadání příkazu `ssh myserver` se vás server zeptá na `Verification code:`. Bez mobilu se nepřipojíte.
+  * **Tip: Problémy se synchronizací času**
+    * Jednorázové kódy (TOTP) jsou závislé na přesném čase. Pokud se čas serveru a vašeho telefonu liší o více než minutu, kódy nebudou fungovat.
+    * Pokud máte problémy, synchronizujte čas na serveru:
+      ```bash
+      sudo apt update
+      sudo apt install ntpdate
+      sudo ntpdate pool.ntp.org
+      ```
