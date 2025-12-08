@@ -1,69 +1,71 @@
+import os
 import shutil
-import sys
-from pathlib import Path
 
-# Definice pravidel
-RULES = {
-    "Images": {".jpg", ".jpeg", ".png", ".gif", ".svg", ".bmp"},
-    "Documents": {".pdf", ".docx", ".doc", ".txt", ".xlsx", ".pptx"},
-    "Archives": {".zip", ".tar", ".gz", ".rar", ".7z"},
-    "Scripts": {".py", ".sh", ".js", ".bat"}
+# Složka, kterou budeme uklízet
+BASE_DIR = "downloads_test"
+
+# Pravidla pro třídění
+EXTENSIONS = {
+    "Images": [".jpg", ".jpeg", ".png", ".gif"],
+    "Docs": [".pdf", ".txt", ".docx", ".xlsx"],
+    "Archives": [".zip", ".tar", ".gz", ".rar"],
+    "Scripts": [".py", ".sh", ".bat"]
 }
 
-def get_unique_path(path):
+def setup_mess():
     """
-    Pokud soubor existuje, přidá k němu číslo (např. file_1.txt).
+    PŘIPRAVENÁ FUNKCE.
+    Vytvoří složku downloads_test a naplní ji soubory.
     """
-    if not path.exists():
-        return path
+    if not os.path.exists(BASE_DIR):
+        os.makedirs(BASE_DIR)
+    
+    # Seznam souborů k vytvoření
+    files = [
+        "dovolena.jpg", "faktura.pdf", "data.zip", "skript.py", 
+        "poznamky.txt", "pisnicka.mp3", # mp3 nemá kategorii -> zůstane
+        "dovolena.jpg" # Simulace kolize (tento soubor vytvoříme až uvnitř složky Images)
+    ]
+    
+    print("[SETUP] Vytvářím nepořádek...")
+    for f in files:
+        if f == "dovolena.jpg" and os.path.exists(os.path.join(BASE_DIR, f)):
+            continue # Přeskočíme duplikát v rootu
+        with open(os.path.join(BASE_DIR, f), "w") as file:
+            file.write("Dummy content")
+            
+    # Simulace kolize: V cílové složce Images už jeden soubor "dovolena.jpg" bude
+    os.makedirs(os.path.join(BASE_DIR, "Images"), exist_ok=True)
+    with open(os.path.join(BASE_DIR, "Images", "dovolena.jpg"), "w") as f:
+        f.write("Stará fotka, kterou nechceme přepsat!")
+
+def organize():
+    print(f"Uklízím složku: {os.path.abspath(BASE_DIR)}")
+    
+    # Získáme seznam souborů v kořenu složky
+    all_files = [f for f in os.listdir(BASE_DIR) if os.path.isfile(os.path.join(BASE_DIR, f))]
+
+    for filename in all_files:
+        # Získání přípony (např. ".jpg")
+        file_ext = os.path.splitext(filename)[1].lower()
         
-    stem = path.stem
-    suffix = path.suffix
-    counter = 1
-    
-    while True:
-        new_path = path.with_name(f"{stem}_{counter}{suffix}")
-        if not new_path.exists():
-            return new_path
-        counter += 1
-
-def organize_folder(target_dir):
-    root = Path(target_dir)
-    if not root.exists():
-        print("Cesta neexistuje.")
-        return
-
-    # Vytvoření složek
-    for folder_name in RULES.keys():
-        (root / folder_name).mkdir(exist_ok=True)
-
-    print(f"--- Organizuji: {root} ---")
-    
-    moved_count = 0
-    
-    for item in root.iterdir():
-        if item.is_file():
-            suffix = item.suffix.lower()
-            
-            # Hledáme, kam soubor patří
-            dest_folder = None
-            for folder, extensions in RULES.items():
-                if suffix in extensions:
-                    dest_folder = folder
-                    break
-            
-            if dest_folder:
-                target_path = root / dest_folder / item.name
-                
-                # Řešení kolizí
-                final_path = get_unique_path(target_path)
-                
-                print(f"Přesouvám: {item.name} -> {dest_folder}/{final_path.name}")
-                shutil.move(str(item), str(final_path))
-                moved_count += 1
-
-    print(f"--- Hotovo. Přesunuto {moved_count} souborů. ---")
+        # --- ÚKOL 3: ZDE DOPLŇTE KÓD ---
+        
+        # 1. Zjistěte, do které složky soubor patří (podle EXTENSIONS).
+        #    Pokud přípona není ve slovníku, soubor přeskočte.
+        
+        # 2. Vytvořte cílovou složku, pokud neexistuje (os.makedirs).
+        
+        # 3. Vyřešte kolizi názvů:
+        #    Cílová cesta: destination = os.path.join(BASE_DIR, folder_name, filename)
+        #    Dokud os.path.exists(destination):
+        #       Upravte název (např. "soubor_1.txt") a zkuste to znovu.
+        
+        # 4. Přesuňte soubor (shutil.move).
+        
+        pass
 
 if __name__ == "__main__":
-    path = sys.argv[1] if len(sys.argv) > 1 else "."
-    organize_folder(path)
+    setup_mess()
+    organize()
+    print("\nHotovo. Podívejte se do složky 'downloads_test'.")

@@ -2,11 +2,11 @@
 
 V této lekci se zaměříme na pokročilou správu souborového systému pomocí Pythonu. Základní práci se soubory (`open()`, `read()`) už znáte, ale v systémové správě potřebujeme manipulovat s celými stromy adresářů, přesouvat soubory podle metadat, analyzovat využití disku nebo bezpečně pracovat s cestami napříč operačními systémy (Windows vs. Linux).
 
-## **Klíčové knihovny pro automatizaci**
+## **1. Klíčové knihovny pro automatizaci**
 
 Python nabízí několik standardních knihoven, které jsou pro správce systému denním chlebem.
 
-### **1. Modul `os` (Operating System)**
+### **Modul `os` (Operating System)**
 
 Tento modul poskytuje nízkoúrovňové rozhraní pro interakci s operačním systémem. Je to "švýcarský nůž", který umí téměř vše, co umí terminál.
 
@@ -22,10 +22,10 @@ Tento modul poskytuje nízkoúrovňové rozhraní pro interakci s operačním sy
   * `os.walk('.')` - Rekurzivně projde celý strom adresářů.  
 * **Prostředí a cesty:**  
   * `os.environ` - Slovník s proměnnými prostředí (např. `os.environ.get('HOME')`).  
-  * `os.path.join('a', 'b')` - Spojí cesty správně podle OS (`/` nebo `\`).  
+  * `os.path.join('a', 'b')` - Spojí cesty správně podle OS (`/` nebo ``).  
   * `os.path.exists('soubor')`, `os.path.isfile('soubor')`.
 
-### **2. Modul `shutil` (Shell Utilities)**
+### **Modul `shutil` (Shell Utilities)**
 
 Zatímco `os` řeší nízkoúrovňové operace (často mapované 1:1 na systémová volání), `shutil` nabízí vysokoúrovňové operace, které byste jinak museli složitě programovat.
 
@@ -42,7 +42,7 @@ Zatímco `os` řeší nízkoúrovňové operace (často mapované 1:1 na systém
 * **Disk Usage:**  
   * `shutil.disk_usage('/')` - Vrátí informace o volném místě na disku.
 
-### **3. Modul `pathlib` (Moderní přístup)**
+### **Modul `pathlib` (Moderní přístup)**
 
 Od Pythonu 3.4 je k dispozici `pathlib`, který nahrazuje starší práci s cestami přes `os.path`. Místo textových řetězců používá objekty. Je to dnes preferovaný způsob.
 
@@ -54,66 +54,45 @@ Od Pythonu 3.4 je k dispozici `pathlib`, který nahrazuje starší práci s cest
   * `p.read_text()` / `p.write_text()` - Rychlé čtení/zápis obsahu.  
   * `p.glob('*.log')` - Hledání souborů.
 
-## **Praktické úkoly**
+## **2. Praktické úkoly**
 
-Připravili jsme tři úkoly, které simulují reálné scénáře údržby serveru.
+V této složce naleznete kostry skriptů ("skeletons"), které musíte dokončit.
 
-### **Úkol 1: "Disk Usage Monitor"**
+### **Úkol 1: "Disk Usage Monitor" ([`du_analyzer.py`](./du_analyzer.py))**
 
-Správce potřebuje vědět, které složky zabírají nejvíce místa. Napište skript `du_analyzer.py`, který:
+Správce potřebuje vědět, co zabírá místo na disku.
 
-1. Přijme cestu k adresáři jako argument příkazové řádky (např. pomocí `sys.argv` nebo `argparse`).  
-2. Rekurzivně projde všechny soubory v dané cestě (využijte `os.walk` nebo `pathlib.Path.rglob`).  
-3. Sečte velikost všech souborů.  
-4. Najde a vypíše **TOP 5 největších souborů** (název + velikost v MB).  
-5. Vypíše celkovou velikost adresáře.
+1. Otevřete [`du_analyzer.py`](./du_analyzer.py).  
+2. Doplňte funkci `analyze_directory`, aby rekurzivně prošla složku (použijte `os.walk`).  
+3. Spočítejte celkovou velikost.  
+4. Implementujte logiku pro nalezení **TOP 5 největších souborů**.  
+5. Výstup musí být čitelný (velikost v MB).
 
-**Tip:** Velikost souboru zjistíte pomocí `os.path.getsize(cesta)` nebo `Path(cesta).stat().st_size`.
+### **Úkol 2: "Smart Log Rotator" ([`rotate_logs.py`](./rotate_logs.py))**
 
-### **Úkol 2: "Smart Log Rotator"**
+Simulace archivace starých logů. Skript obsahuje funkci `setup_dummy_logs`, která vytvoří testovací data s různým stářím.
 
-Server generuje logy, které musíme archivovat, aby nezaplnily disk. Logika je složitější než u běžného `logrotate`.
+1. Spusťte skript, aby se vygenerovala složka `logs/`.  
+2. Implementujte funkci `rotate_logs`:  
+   * Vytvořte složku `logs/archive`.  
+   * Projděte `.log` soubory.  
+   * Pokud je soubor starší než **7 dní**: Přesuňte ho do archivu a přejmenujte (přidejte datum).  
+   * Pokud je soubor v archivu starší než **30 dní**: Smaže se.  
+   * *Tip:* Čas modifikace zjistíte přes `os.path.getmtime()` a porovnáte s `time.time()`.
 
-**Zadání:** Napište skript `rotate_logs.py`, který zpracuje složku `logs/`:
+### **Úkol 3: "Organizace souborů" ([`organize.py`](./organize.py))**
 
-1. Vytvoří složku `logs/archive`, pokud neexistuje.  
-2. Projde všechny soubory s příponou `.log`.  
-3. Zkontroluje datum poslední modifikace (`st_mtime`).  
-4. **Pravidla:**  
-   * Logy starší než **7 dní** přesune do `archive/` a přejmenuje na `nazev_DATUM.log` (např. `app_2023-10-01.log`).  
-   * Logy starší než **30 dní** (které už jsou v archivu) **smaže úplně**.  
-   * Soubory mladší než 7 dní nechá na místě.
+Uklidíme složku s "nepořádkem".
 
-**Příprava dat (Bash):**
+1. Skript vygeneruje testovací soubory (`test.jpg`, `doc.pdf`...).  
+2. Doplňte logiku třídění do podsložek (`Images`, `Docs`, `Archives`, `Scripts`).  
+3. **Kritické:** Ošetřete **kolize názvů**. Pokud `image.jpg` už v cíli existuje, nový soubor se musí jmenovat `image_1.jpg`. Nepřepisujte data!
 
-```bash
-mkdir -p logs/archive  
-touch logs/today.log  
-touch -d "10 days ago" logs/old.log  
-touch -d "40 days ago" logs/archive/ancient_2023-01-01.log
-```
+### **Úkol 4: Replikace přikazu tree ([`replicate_tree.py`](./replicate_tree.py))**
 
-### **Úkol 3: "Organizace souborů podle typu"**
+Napište skript, který zkopíruje strukturu adresářů (tree), ale **bez souborů**.
 
-Uživatelé ukládají vše do jedné složky `Downloads`. Udělejte v tom pořádek.
-
-**Zadání:** Napište skript `organize.py`, který:
-
-1. Projde zadanou složku.  
-2. Vytvoří podsložky `Images`, `Documents`, `Archives`, `Scripts`.  
-3. Přesune soubory podle jejich přípony:  
-   * `.jpg`, `.png`, `.gif` -> `Images`  
-   * `.pdf`, `.docx`, `.txt` -> `Documents`  
-   * `.zip`, `.tar`, `.gz` -> `Archives`  
-   * `.py`, `.sh` -> `Scripts`  
-4. Ostatní soubory nechá být.  
-5. Ošetří kolize názvů (pokud soubor v cíli už existuje, nepřepíše ho, ale přidá k názvu číslo, např. `image_1.jpg`).
-
-## **Bonusová úloha: Replikace stromu**
-
-Napište skript, který zkopíruje celou adresářovou strukturu ze zdroje do cíle, ale bez souborů.  
-Tedy vytvoří "kostru" adresářů.
-
-* Využijte `os.walk` pro průchod zdrojem.  
-* Využijte `os.makedirs` pro vytváření složek v cíli.  
-* Cestu v cíli odvodíte nahrazením kořenové části cesty zdroje.
+1. Vstup: Zdrojová složka a cílová složka.  
+2. Použijte `os.walk` pro průchod zdrojem.  
+3. V cíli vytvářejte odpovídající prázdné složky pomocí `os.makedirs`.  
+4. Soubory ignorujte.

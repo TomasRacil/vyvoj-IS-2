@@ -1,55 +1,86 @@
 import os
-import shutil
 import time
-from datetime import datetime
-from pathlib import Path
+import shutil
+import datetime
 
-# Konfigurace
-LOG_DIR = Path("logs")
-ARCHIVE_DIR = LOG_DIR / "archive"
-DAYS_ARCHIVE = 7
-DAYS_DELETE = 30
+# Nastavení cest
+LOG_DIR = "logs"
+ARCHIVE_DIR = os.path.join(LOG_DIR, "archive")
 
-def get_file_age_days(filepath):
-    stat = filepath.stat()
-    age_seconds = time.time() - stat.st_mtime
-    return age_seconds / (24 * 3600)
+def setup_dummy_logs():
+    """
+    PŘIPRAVENÁ FUNKCE - NEMĚNIT.
+    Vytvoří testovací prostředí: složku logs/ a soubory s různým stářím.
+    """
+    if os.path.exists(LOG_DIR):
+        shutil.rmtree(LOG_DIR) # Smaže staré pro čistý start
+    os.makedirs(ARCHIVE_DIR)
 
-def main():
-    if not LOG_DIR.exists():
-        print(f"Složka {LOG_DIR} neexistuje. Vytvořte ji.")
-        return
+    now = time.time()
+    day = 86400 # Sekund v dni
 
-    # Zajistíme existenci archivu
-    ARCHIVE_DIR.mkdir(exist_ok=True)
+    # Seznam souborů: (název, stáří_ve_dnech)
+    files = [
+        ("today.log", 0),
+        ("recent.log", 3),
+        ("old.log", 10),       # Měl by se přesunout do archivu
+        ("very_old.log", 20),  # Měl by se přesunout do archivu
+    ]
+    
+    # Soubory, které už v archivu jsou
+    archive_files = [
+        ("archived_ok.log", 10),
+        ("archived_delete.log", 35) # Měl by se smazat (starší než 30 dní)
+    ]
 
-    print(f"--- Rotace logů v {LOG_DIR} ---")
+    print("[SETUP] Generuji testovací data...")
+    
+    # Vytvoření logů
+    for name, age_days in files:
+        path = os.path.join(LOG_DIR, name)
+        with open(path, "w") as f: f.write(f"Log data created {age_days} days ago.")
+        # Změna času modifikace souboru "do minulosti"
+        file_time = now - (age_days * day)
+        os.utime(path, (file_time, file_time))
 
-    # 1. Procházíme hlavní složku (hledáme kandidáty na archivaci)
-    for log_file in LOG_DIR.glob("*.log"):
-        age = get_file_age_days(log_file)
-        
-        if age > DAYS_ARCHIVE:
-            # Zformátujeme datum modifikace pro název
-            mtime = datetime.fromtimestamp(log_file.stat().st_mtime)
-            date_str = mtime.strftime("%Y-%m-%d")
-            
-            # Nový název: puvodni_DATUM.log
-            new_name = f"{log_file.stem}_{date_str}{log_file.suffix}"
-            target_path = ARCHIVE_DIR / new_name
-            
-            print(f"[ARCHIV] {log_file.name} ({age:.1f} dní) -> {new_name}")
-            shutil.move(str(log_file), str(target_path))
+    # Vytvoření archivních logů
+    for name, age_days in archive_files:
+        path = os.path.join(ARCHIVE_DIR, name)
+        with open(path, "w") as f: f.write("Archived data...")
+        file_time = now - (age_days * day)
+        os.utime(path, (file_time, file_time))
 
-    # 2. Procházíme archiv (hledáme kandidáty na smazání)
-    for archive_file in ARCHIVE_DIR.glob("*.log"):
-        age = get_file_age_days(archive_file)
-        
-        if age > DAYS_DELETE:
-            print(f"[SMAZAT] {archive_file.name} ({age:.1f} dní)")
-            os.remove(archive_file)
+def rotate_logs():
+    print("--- Spouštím rotaci logů ---")
+    now = time.time()
+    
+    # --- ÚKOL 2: ZDE DOPLŇTE KÓD ---
 
-    print("--- Hotovo ---")
+    # Krok 1: Archivace starých logů z LOG_DIR
+    # Projděte soubory v LOG_DIR (os.listdir).
+    # Ignorujte složku 'archive'.
+    # Pokud je soubor starší než 7 dní:
+    #   - Přesuňte ho do ARCHIVE_DIR (shutil.move).
+    #   - (Volitelné) Přejmenujte ho (přidejte datum).
+    
+    # ... Váš kód ...
+
+    # Krok 2: Mazání velmi starých logů z ARCHIVE_DIR
+    # Projděte soubory v ARCHIVE_DIR.
+    # Pokud je soubor starší než 30 dní:
+    #   - Smažte ho (os.remove).
+    #   - Vypište informaci o smazání.
+
+    # Tip: Stáří souboru ve dnech zjistíte takto:
+    # mtime = os.path.getmtime(cesta_k_souboru)
+    # stari_dny = (now - mtime) / 86400
+    
+    pass
 
 if __name__ == "__main__":
-    main()
+    setup_dummy_logs()
+    rotate_logs()
+    
+    print("\n--- Kontrola výsledku ---")
+    print(f"Obsah {LOG_DIR}: {os.listdir(LOG_DIR)}")
+    print(f"Obsah {ARCHIVE_DIR}: {os.listdir(ARCHIVE_DIR)}")

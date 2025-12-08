@@ -23,6 +23,8 @@ Jako správci systému musíte ovládat dva jazyky:
 | [**03. Procesy a Watchdogs**](./03-procesy-signaly) | Řízení procesů (subprocess, signal) | **Service Watchdog:** Skript, který hlídá a restartuje jiné aplikace. |
 | [**04. Systemd Daemons**](./04-systemd-sluzby) | Tvorba systémových služeb | **MyService:** Registrace Python skriptu do Systemd. |
 | [**05. Logy a Sítě**](./05-logy-site) | Regex analýza a Sockets | **Log Parser** & **Chat Server** (Backend pro Android). |
+| [**06. Chat Server**](./06-chat-server) | Síťová komunikace (Sockets) | Chat Backend: Multithreaded TCP server. |
+| [**07. Propojení s Androidem**](./07-android-klient) | Integrace a sítě (NAT, Firewall) | **End-to-End Test:** Spojení fyzického telefonu s virtuálním serverem. |
 
 ## **Prerekvizity**
 

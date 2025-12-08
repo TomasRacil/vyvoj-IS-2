@@ -6,22 +6,22 @@ Tento blok se skládá ze tří hlavních částí. Začneme přípravou prostř
 
 Výuka je rozdělena do logických bloků s následující hodinovou dotací:
 
-| Datum | Čas | Blok | Téma | Zaměření |
-| :---- | :---- | :---- | :---- | :---- |
-| **03.12.** | 11:40 | **Úvod** | **00. Příprava prostředí** | Instalace nástrojů: Git, VS Code, Docker, VirtualBox, Android Studio |
-| **03.12.** | 14:30 | **Virtualizace** | **01. Teorie & VM** | Emulace vs Virtualizace, Hypervisory, Vagrant (IaC) |
-| **04.12.** | 08:00 | **Virtualizace** | **02. Docker Basics** | Kontejnery vs VM, Docker CLI, Spuštění DB |
-| **08.12.** | 08:00 | **Virtualizace** | **03. Images & Build** | Tvorba vlastních obrazů, Dockerfile, Vrstvy |
-| **08.12.** | 09:50 | **Virtualizace** | **04. Orchestrace** | Docker Compose, Networking, Persistence dat |
-| **15.12.** | 09:50 | **SysProg** | **05. Python & OS** | Práce se souborovým systémem, náhrada Bash skriptů |
-| **16.12.** | 09:50 | **SysProg** | **06. Procesy** | Správa procesů, Signály (SIGINT/KILL), Subprocess |
-| **16.12.** | 11:40 | **SysProg** | **07. Služby** | Tvorba systémových služeb (Systemd Daemons) |
-| **17.12.** | 11:40 | **SysProg** | **08. Logy & Sítě** | Logování, Regex analýza, Sockets basics |
-| **17.12.** | 14:30 | **Mobilní** | **09. Teorie Androidu** | Architektura OS Android (HAL, ART), Životní cyklus Activity, Gradle |
-| **18.12.** | 11:40 | **Mobilní** | **10. UI & HTTP** | Tvorba UI (XML Layouts) a HTTP komunikace (Retrofit) |
-| **14.01.** | 08:00 | **Mobilní** | **11. Data & Offline** | Persistence dat, Lokální databáze, Caching |
-| **15.01.** | 11:40 | **Mobilní** | **12. Integrace** | Propojení s backendem, Finální ladění |
-| **16.01.** | 09:50 | **Závěr** | **13. Rezerva** | Závěrečný test |
+| Blok | Téma | Zaměření |
+| :---- | :---- | :---- |
+| **Úvod** | **00. Příprava prostředí** | Instalace nástrojů: Git, VS Code, Docker, VirtualBox, Android Studio |
+| **Virtualizace** | **01. Teorie & VM** | Emulace vs Virtualizace, Hypervisory, Vagrant (IaC) |
+| **Virtualizace** | **02. Docker Basics** | Kontejnery vs VM, Docker CLI, Spuštění DB |
+| **Virtualizace** | **03. Images & Build** | Tvorba vlastních obrazů, Dockerfile, Vrstvy |
+| **Virtualizace** | **04. Orchestrace** | Docker Compose, Networking, Persistence dat |
+| **SysProg** | **05. Python & OS** | Práce se souborovým systémem, náhrada Bash skriptů |
+| **SysProg** | **06. Procesy** | Správa procesů, Signály (SIGINT/KILL), Subprocess |
+| **SysProg** | **07. Služby** | Tvorba systémových služeb (Systemd Daemons) |
+| **SysProg** | **08. Logy & Sítě** | Logování, Regex analýza, Sockets basics |
+| **Mobilní vývoj** | **09. Teorie Androidu** | Architektura OS Android (HAL, ART), Životní cyklus Activity, Gradle |
+| **Mobilní vývoj** | **10. UI & HTTP** | Tvorba UI (XML Layouts) a HTTP komunikace (Retrofit) |
+| **Mobilní vývoj** | **11. Data & Offline** | Persistence dat, Lokální databáze, Caching |
+| **Mobilní vývoj** | **12. Integrace** | Propojení s backendem, Finální ladění |
+| **Závěr** | **13. Rezerva** | Závěrečný test |
 
 ## **Podmínky splnění předmětu**
 
@@ -47,13 +47,13 @@ Na konci semestru proběhne písemný test, který ověří znalosti ze všech p
 
 Protože se učíme od začátku, **první hodinu věnujeme instalaci**. Kompletní seznam potřebných nástrojů a návody k instalaci naleznete v sekci:
 
-[**00. Příprava prostředí**](./00-priprava-prostredi)
+[**00. Příprava prostředí**](./00-predpoklady-priprava-prostredi/)
 
 Pokud chcete být napřed a ušetřit čas na cvičení, doporučujeme si tuto sekci projít a nainstalovat nástroje předem.
 
 ## **Struktura repozitáře**
 
-* [00-priprava-prostredi/](./00-priprava-prostredi) - Instalace a nastavení prostředí.  
+* [00-predpoklady-priprava-prostredi/](./00-predpoklady-priprava-prostredi/) - Instalace a nastavení prostředí.  
 * [01-virtualizace-a-kontejnerizace/](./01-virtualizace-a-kontejnerizace) - Od VirtualBoxu po Docker Compose.  
 * [02-systemove-programovani/](./02-systemove-programovani) - Python a Bash pro správu serverů.  
 * [03-mobilni-klient/](./03-mobilni-klient) - Android aplikace komunikující s naším serverem.

@@ -1,0 +1,38 @@
+[Unit]
+Description=Dummy Python Service pro vyuku
+After=network.target
+
+[Service]
+# Type=simple je výchozí - Systemd předpokládá, že proces běží v popředí
+Type=simple
+
+# Uživatel, pod kterým služba poběží (z bezpečnostních důvodů nikdy ne pod rootem, pokud to není nutné)
+# V rámci cvičení si toto změňte na svého uživatele!
+User=student
+
+# Pracovní adresář (CWD)
+WorkingDirectory=/home/student/apps/dummy_service
+
+# Příkaz ke spuštění. VŽDY používejte absolutní cesty k interpretu i skriptu.
+ExecStart=/usr/bin/python3 /home/student/apps/dummy_service/dummy_service.py
+
+# Co dělat, když proces skončí?
+# on-failure: restartovat jen při chybě (exit code != 0 nebo signál)
+# always: restartovat vždy (i když skončíme s exit code 0)
+Restart=on-failure
+
+# Jak dlouho čekat před restartem (v sekundách)
+RestartSec=5
+
+# Přesměrování výstupu do System Logu (journald)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=dummy-python-service
+
+# Nastavení proměnných prostředí
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+# WantedBy určuje, v jakém "runlevelu" se má služba spustit.
+# multi-user.target je standardní režim pro servery (bez grafického rozhraní)
+WantedBy=multi-user.target

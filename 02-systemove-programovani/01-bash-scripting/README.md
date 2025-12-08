@@ -2,11 +2,22 @@
 
 I když je Python velice silný nástroj, pro rychlé operace se soubory a pipes je Bash stále vhodnější. Správce systému musí umět napsat jednorázový script přímo v terminálu.
 
-## **Teorie: Základy Bashe**
+## **1. Bash vs. PowerShell (Windows)**
+
+Než začneme: Bash je nativní pro Linux/macOS. Na Windows jej můžete používat přes **Git Bash** nebo **WSL**.
+
+| Koncept | Bash (Linux) | PowerShell (Windows) |
+| :---- | :---- | :---- |
+| Proměnná | `NAME="Petr"` | `$Name = "Petr"` |
+| Výpis | `echo $NAME` | `Write-Host $Name` |
+| Podmínka | `if [ -f "file" ]; ...` | `if (Test-Path "file") { ... }` |
+| Smyčka | `for i in {1..5}; ...` | `for (($i = 1); $i -lt 5; $i++){...}` |
+
+## **2. Teorie: Základy Bashe**
 
 Bash (Bourne Again SHell) je interpret příkazů. Skript je jen soubor s příkazy, které byste jinak psali ručně.
 
-### **1. Proměnné**
+### **Proměnné**
 
 V Bashi se proměnné přiřazují bez mezer kolem `=`.  
 K jejich hodnotě přistupujeme pomocí `$`.
@@ -16,14 +27,14 @@ JMENO="Student"
 echo "Ahoj $JMENO"
 ```
 
-### **2. Speciální proměnné**
+### **Speciální proměnné**
 
 * `$0` - Název skriptu.  
 * `$1`, `$2`... - Argumenty předané skriptu (první, druhý...).  
 * `$?` - Návratový kód posledního příkazu (0 = OK, cokoliv jiného = Chyba).  
 * `$#` - Počet argumentů.
 
-### **3. Podmínky (if)**
+### **Podmínky (if)**
 
 Používáme `if [ podminka ]; then ... fi`. Mezery uvnitř `[ ]` jsou povinné!
 
@@ -56,7 +67,7 @@ fi
   * `-ge`: Větší nebo rovno (Greater or Equal).  
   * `-le`: Menší nebo rovno (Less or Equal).
 
-### **4. Cykly (Loops)**
+### **Cykly (Loops)**
 
 Pro automatizaci opakovaných úloh jsou cykly klíčové.
 
@@ -81,7 +92,7 @@ while read radek; do
 done < seznam.txt
 ```
 
-### **5. Roury (Pipes) a Přesměrování**
+### **Roury (Pipes) a Přesměrování**
 
 To, co dělá Linux silným, je spojování programů.
 
@@ -93,7 +104,7 @@ To, co dělá Linux silným, je spojování programů.
 * `2>` (Error Redirect): Přesměruje chybová hlášení.  
   * `find / -name "tajne" 2>/dev/null` (Zahoď chyby "Permission denied").
 
-### **6. Užitečné příkazy pro skriptování**
+### **Užitečné příkazy pro skriptování**
 
 V úlohách budete potřebovat tyto základní Linuxové nástroje:
 
@@ -115,12 +126,8 @@ V úlohách budete potřebovat tyto základní Linuxové nástroje:
 * **Exit Codes (`$?`):** Každý příkaz vrací číslo. `0` = OK, cokoli jiného = Chyba. Skript by měl končit `exit 0` nebo `exit 1` při chybě.  
 * **Command Substitution (`$(...)`):** Uložení výstupu příkazu do proměnné.  
   * `DATUM=$(date +%F)`
-
-## **Praktické úkoly**
-
-Pro procvičení si vyzkoušíme čtyři samostatné úkoly od jednoduchých po složité.
-
-### **Jak spustit skript? Oprávnění v Linuxu**
+  
+## **3. Jak spustit skript?**
 
 Než se pustíte do úkolů, je klíčové pochopit, jak skript spustit. Nestačí ho jen napsat.
 
@@ -150,47 +157,40 @@ Než se pustíte do úkolů, je klíčové pochopit, jak skript spustit. Nestač
     ```
     Proč `./`? Z bezpečnostních důvodů není aktuální adresář standardně v systémové cestě (`$PATH`), takže musíte explicitně uvést, kde se soubor nachází.
 
-### **Úkol 1: "Hello User" (Argumenty a Proměnné)**
 
-Vytvořte skript `hello.sh`, který:
+## **4. Praktické úkoly**
 
-1. Přijme **jméno** jako první argument.  
-2. Pokud argument chybí, vypíše: "Chyba: Zadej jméno" a skončí s chybou.  
-3. Pokud je jméno zadáno, vypíše: "Ahoj [Jméno], dnes je [Aktuální Datum]".
+V této složce naleznete předpřipravené soubory ([`hello.sh`](./hello.sh), [`check_size.sh`](./check_size.sh), [`backup.sh`](./backup.sh), [`rename_logs.sh`](./rename_logs.sh)).
 
-**Tip:** Datum získáte příkazem date.
+### **Úkol 1: Hello User**
 
-### **Úkol 2: "Hromadné přejmenování" (Cykly)**
+1. Spusťte skript [`hello.sh`](./hello.sh).  
+2. Upravte ho tak, aby:  
+   * Přijal **jméno** jako první argument (`$1`).  
+   * Pokud argument chybí (`-z "$1"`), vypíše: "Chyba: Zadej jméno" a skončí s chybou (`exit 1`).  
+   * Pokud je jméno zadáno, vypíše: `"Ahoj [Jméno], dnes je [Aktuální Datum]"` (použijte příkaz date).
 
-Vytvořte skript `rename_logs.sh`, který:
+### **Úkol 2: Hromadné přejmenování**
 
-1. Vytvoří testovací soubory `test1.log`, `test2.log`, `test3.log` (pro účely testování).  
-2. Pomocí cyklu `for` projde všechny `.log` soubory v aktuálním adresáři.  
-3. Každý soubor přejmenuje tak, že mu přidá příponu `.bak` (např. `test1.log.bak`).  
-4. Vypíše "Zálohuji: [původní] -> [nový]".
+1. Vytvořte si pomocné soubory: `touch test1.log test2.log test3.log`.  
+2. Otevřete [`rename_logs.sh`](./rename_logs.sh).  
+3. Doplňte do něj `for` cyklus, který projde všechny `.log` soubory.  
+4. Každý soubor přejmenujte tak, že mu přidáte příponu `.bak`.  
+5. Vypište `"Zálohuji: [původní] -> [nový]"`.
 
-**Tip:** Pro vytvoření prázdných souborů použijte příkaz `touch`.
+### **Úkol 3: Sledování velikosti**
 
-### **Úkol 3: "Sledování velikosti" (Podmínky a Příkazy)**
+1. Otevřete [`check_size.sh`](./check_size.sh).  
+2. Skript by měl přijmout název souboru jako argument.  
+3. Zjistěte, zda soubor existuje (`-f`). Pokud ne, vypište chybu.  
+4. Pokud existuje, zjistěte jeho velikost (`wc -c < soubor`).  
+5. Pokud je větší než 1000 bytů, vypište `"VELKÝ SOUBOR"`, jinak `"MALÝ SOUBOR"`.
 
-Vytvořte skript `check_size.sh`, který:
+### **Úkol 4: Rotující Zálohování**
 
-1. Přijme název souboru jako argument.  
-2. Zjistí, zda soubor existuje.  
-3. Pokud neexistuje, vypíše chybu.  
-4. Pokud existuje, zjistí jeho velikost.  
-5. Pokud je soubor větší než 1000 bytů, vypíše "VELKÝ SOUBOR". Jinak vypíše "MALÝ SOUBOR".
+Toto je reálný scénář. Upravte [`backup.sh`](./backup.sh) tak, aby:
 
-**Tip:** Velikost souboru v bytech zjistíte příkazem `wc -c < soubor`.
-
-### **Úkol 4 (Bonus): "Rotující Zálohování" (Komplexní úloha)**
-
-Toto je reálný scénář, se kterým se setkáte v praxi. Vytvořte skript backup.sh, který zazálohuje složku, ale nenechá disk zaplnit starými zálohami.
-
-**Zadání:**
-
-1. Skript přijme cestu ke složce jako argument.  
-2. Vytvoří .tar.gz archiv s časovým razítkem v názvu do složky /tmp/backups.  
-3. **Logika rotace:** Ponechá pouze **5 nejnovějších záloh**, starší automaticky smaže.
-
-**Tip pro rotaci:** Použijte kombinaci ls -t (seřadit podle času) a tail nebo find.
+1. Přijal cestu ke složce jako argument.  
+2. Vytvořil `.tar.gz` archiv s časovým razítkem do složky `/tmp/backups` (nebo do lokální `backup` složky).  
+3. **Logika rotace:** Zajistěte, aby ve složce záloh zůstalo maximálně **5 nejnovějších** souborů. Starší automaticky smažte.  
+   * *Tip:* Použijte `ls -t | tail ... | xargs rm` nebo podobnou logiku.

@@ -1,44 +1,41 @@
 #!/bin/bash
 
-# Uložíme si první argument do proměnné  
-SOURCE_DIR=$1  
-# Cesta, kam budeme zálohovat (používáme /tmp pro testování)  
-BACKUP_DIR="/tmp/backups"  
-# Aktuální datum a čas (např. 20231012_140000)  
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)  
-# Název výsledného souboru  
-BACKUP_NAME="backup_$TIMESTAMP.tar.gz"
+# Úkol 4: Rotující zálohování
+# 1. Skript přijme cestu ke složce jako argument.
+# 2. Vytvoří tar.gz archiv v BACKUP_DIR.
+# 3. Smaže staré zálohy, aby jich zůstalo jen 5.
 
-# 1. Validace vstupu: Zkontolujeme, zda uživatel zadal cestu (-z znamená "je prázdný")  
-if [ -z "$SOURCE_DIR" ]; then  
-    echo "Chyba: Použití: $0 <cesta_k_zaloze>"  
-    # Ukončíme skript s chybovým kódem 1  
-    exit 1  
+BACKUP_DIR="./backups"
+SOURCE_DIR=$1
+DATUM=$(date +%Y%m%d_%H%M%S)
+
+# Kontrola argumentu
+if [ -z "$SOURCE_DIR" ]; then
+    echo "Chyba: Musíte zadat složku k zálohování."
+    echo "Použití: ./backup.sh <složka>"
+    exit 1
 fi
 
-# Vytvoříme složku pro zálohy, pokud neexistuje (-p nevypíše chybu, když už existuje)  
+# Vytvoření složky pro zálohy
 mkdir -p "$BACKUP_DIR"
 
-# 2. Vytvoření zálohy pomocí tar  
-# c = create, z = gzip komprese, f = file (výstup do souboru)  
-echo "Vytvářím zálohu $BACKUP_NAME..."  
-tar -czf "$BACKUP_DIR/$BACKUP_NAME" "$SOURCE_DIR" 2>/dev/null
+# Název archivu
+ARCHIV="$BACKUP_DIR/backup_$DATUM.tar.gz"
 
-# Zkontrolujeme návratový kód taru ($?)  
-if [ $? -eq 0 ]; then  
-    echo "Záloha úspěšná."  
-else  
-    echo "Chyba při tarování!"  
-    exit 2  
+echo "Zálohuji $SOURCE_DIR do $ARCHIV..."
+
+# Vytvoření archivu (potlačíme chyby 2>/dev/null)
+tar -czf "$ARCHIV" "$SOURCE_DIR" 2>/dev/null
+
+if [ $? -eq 0 ]; then
+    echo "Záloha úspěšná."
+else
+    echo "Chyba při vytváření archivu!"
+    exit 1
 fi
 
-# 3. Rotace (Ponechat jen 5 nejnovějších)  
-echo "Čistím staré zálohy..."  
-cd "$BACKUP_DIR"
+# --- ZDE DOPLŇTE LOGIKU ROTACE ---
+# Tip: Použijte ls -t (seřadit podle času) a tail
+# ls -t "$BACKUP_DIR"/*.tar.gz | tail -n +6 ...
 
-# ls -t: Seřadí soubory podle času (nejnovější nahoře)  
-# tail -n +6: Vypíše vše od 6. řádku dál (tedy přeskočí 5 nejnovějších)  
-# xargs -r rm --: Pro každý řádek zavolá příkaz rm (smaže ho)  
-ls -t *.tar.gz 2>/dev/null | tail -n +6 | xargs -r rm --
-
-echo "Hotovo."  
+echo "Rotace záloh zatím není implementována."

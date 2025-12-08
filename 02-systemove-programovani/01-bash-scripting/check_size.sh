@@ -1,20 +1,18 @@
 #!/bin/bash
 
-SOUBOR=$1
+SOUBOR="data.txt"
 
-if [ ! -f "$SOUBOR" ]; then
-    echo "Chyba: Soubor neexistuje."
-    exit 1
-fi
+# Úkol 3:
+# 1. Změňte SOUBOR tak, aby se bral z prvního argumentu ($1).
+# 2. Přidejte kontrolu, zda soubor existuje (-f).
+# 3. Zjistěte velikost (wc -c).
+# 4. Pokud > 1000 bytů, vypište VELKÝ, jinak MALÝ.
 
-# Získání velikosti (wc -c vrátí číslo)
-VELIKOST=$(wc -c < "$SOUBOR")
+# --- ZDE UPRAVTE KÓD ---
 
-echo "Velikost souboru je: $VELIKOST bytů"
-
-# Porovnání čísel (-gt znamená Greater Than - větší než)
-if [ $VELIKOST -gt 1000 ]; then
-    echo "VELKÝ SOUBOR"
+if [ -f "$SOUBOR" ]; then
+    echo "Soubor $SOUBOR existuje."
+    # Zde chybí logika pro velikost...
 else
-    echo "MALÝ SOUBOR"
+    echo "Chyba: Soubor neexistuje."
 fi
