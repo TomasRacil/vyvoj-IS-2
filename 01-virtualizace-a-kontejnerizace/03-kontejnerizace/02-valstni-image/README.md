@@ -154,3 +154,19 @@ Velikost image je důležitá. Menší image se rychleji stahuje a zabírá mén
 ---
 
 ### 4. Úkol: Alpine
+
+*Tento úkol není v materiálech. Musíte pochopit, jak funguje Linuxový balíčkovací systém uvnitř Alpine.*
+
+V materiálech používáme pohodlný image `python:3.9-slim`, kde už je Python nainstalovaný. Co když ale potřebujete začít od píky?
+
+  * **Zadání:**
+    1.  Vytvořte Dockerfile pro vaši Flask aplikaci, ale jako základ použijte **čistý systém**:
+        ```dockerfile
+        FROM alpine:latest
+        ```
+    2.  Když zkusíte tento image sestavit a spustit, selže to (`python: not found`), protože Alpine v základu Python neobsahuje.
+    3.  **Úkol:**
+          * Přidejte do Dockerfile instrukci `RUN`, která pomocí balíčkovacího manažera `apk` nainstaluje `python3` a `py3-pip`.
+          * *Pozor:* Alpine používá `apk`, ne `apt`!
+          * Musíte také vytvořit virtuální prostředí (venv) nebo povolit instalaci balíčků globálně (v nejnovějších verzích Pythonu na Alpine je to nutné obejít přes `--break-system-packages` nebo konfiguraci).
+    4.  **Cíl:** Funkční Flask aplikace běžící na image, který jste si sestavili sami.
