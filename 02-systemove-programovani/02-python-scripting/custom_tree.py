@@ -34,26 +34,7 @@ def draw_tree(start_path):
 
     # 5. Projděte seznam 'files' a vypište soubory se správným odsazením (level + 1).
 
-    for root, dirs, files in os.walk(start_path):
-        # Výpočet relativní cesty od startu (např. "Slozka/PodSlozka")
-        rel_path = os.path.relpath(root, start_path)
-        
-        # Pokud jsme v kořenu, rel_path je ".", nastavíme level na 0, jinak počítáme hloubku
-        if rel_path == ".":
-            level = 0
-        else:
-            # Hloubka se rovná počtu separátorů v cestě + 1
-            # Např "A/B" má 1 separátor, ale je to level 2 (pod kořenem)
-            level = rel_path.count(os.sep) + 1
-            
-            # Výpis aktuální složky
-            indent = '|   ' * (level - 1) + '|-- '
-            print(f"{indent}{os.path.basename(root)}/")
-
-        # Výpis souborů v aktuální složce
-        sub_indent = '|   ' * level + '|-- '
-        for f in files:
-            print(f"{sub_indent}{f}")
+    pass
 
 
 if __name__ == "__main__":
