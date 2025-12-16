@@ -88,11 +88,27 @@ Uklidíme složku s "nepořádkem".
 2. Doplňte logiku třídění do podsložek (`Images`, `Docs`, `Archives`, `Scripts`).  
 3. **Kritické:** Ošetřete **kolize názvů**. Pokud `image.jpg` už v cíli existuje, nový soubor se musí jmenovat `image_1.jpg`. Nepřepisujte data!
 
-### **Úkol 4: Replikace přikazu tree ([`replicate_tree.py`](./replicate_tree.py))**
+###**Úkol 4: Implementace příkazu tree ([`custom_tree.py`](./custom_tree.py))**
 
-Napište skript, který zkopíruje strukturu adresářů (tree), ale **bez souborů**.
+Napište skript, který vizualizuje strukturu adresářů a souborů ve formě stromu (podobně jako systémový příkaz `tree`).
 
-1. Vstup: Zdrojová složka a cílová složka.  
-2. Použijte `os.walk` pro průchod zdrojem.  
-3. V cíli vytvářejte odpovídající prázdné složky pomocí `os.makedirs`.  
-4. Soubory ignorujte.
+1. **Vstup:** Cesta ke kořenovému adresáři (lze zadat jako argument nebo přes `input()`). Pokud není zadána, použijte aktuální adresář (`.`).
+2. **Průchod:** Použijte `os.walk` (nebo rekurzi s `os.listdir`) pro průchod adresářovou strukturou.
+3. **Výstup:** Vypisujte názvy složek a souborů do terminálu.
+4. **Formátování:**
+   * Každá položka musí být odsadzena podle své hloubky zanoření.
+   * Pro odsazení použijte vizuální znaky (např. `|-- `, `|   `) nebo tabulátory/mezery, aby byla hierarchie jasně čitelná.
+
+**Příklad očekávaného výstupu:**
+
+```text
+moje_slozka/
+|-- dokumenty/
+|   |-- prace.txt
+|   |-- skola/
+|       |-- ukol.py
+|-- obrazky/
+|   |-- foto.jpg
+|-- poznamky.md
+
+```
