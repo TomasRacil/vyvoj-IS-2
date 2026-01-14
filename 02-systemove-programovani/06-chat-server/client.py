@@ -2,7 +2,7 @@ import socket
 import threading
 
 HOST = '127.0.0.1' # Pokud testujete z jiného PC, zadejte IP serveru
-PORT = 12345
+PORT = 6000
 
 def listen(sock):
     while True:

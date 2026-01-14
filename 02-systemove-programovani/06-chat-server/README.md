@@ -12,7 +12,7 @@ Spojit vše, co jsme se naučili:
 
 ## **1. Architektura**
 
-* **Chat Server (Python):** Běží na portu 12345. Loguje události (připojení, odpojení, chyby) na standardní výstup (`stdout`).  
+* **Chat Server (Python):** Běží na portu 6000. Loguje události (připojení, odpojení, chyby) na standardní výstup (`stdout`).  
 * **Systemd:** Spravuje proces serveru. Přesměrovává `stdout` do systémového deníku.  
 * **Klient:** Android aplikace nebo terminálový skript připojující se k serveru.  
 * **Admin (Vy):** Sleduje logy a řídí službu.

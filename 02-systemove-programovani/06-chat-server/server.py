@@ -8,7 +8,7 @@ import os
 # Odkaz na teorii threadingu: [DOPLNIT_ODKAZ]
 
 HOST = '0.0.0.0'
-PORT = 12345
+PORT = 6000
 clients = []
 server_socket = None
 
@@ -18,14 +18,23 @@ def log(msg):
     print(f"[SERVER PID {os.getpid()}] {msg}", flush=True)
 
 def broadcast(message, sender_socket):
-    for client in clients:
-        if client != sender_socket:
-            try:
-                client.send(message)
-            except:
-                client.close()
-                if client in clients:
-                    clients.remove(client)
+    try:
+        msg_str = message.decode('utf-8')
+        if not msg_str.endswith('\n'):
+            msg_str += '\n'
+        
+        final_bytes = msg_str.encode('utf-8')
+
+        for client in clients:
+            if client != sender_socket:
+                try:
+                    client.send(final_bytes)
+                except:
+                    client.close()
+                    if client in clients:
+                        clients.remove(client)
+    except Exception as e:
+        log(f"Chyba při broadcastu: {e}")
 
 def handle_client(client_socket, address):
     log(f"Nové připojení: {address}")
