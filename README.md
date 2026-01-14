@@ -56,4 +56,4 @@ Pokud chcete být napřed a ušetřit čas na cvičení, doporučujeme si tuto s
 * [00-predpoklady-priprava-prostredi/](./00-predpoklady-priprava-prostredi/) - Instalace a nastavení prostředí.  
 * [01-virtualizace-a-kontejnerizace/](./01-virtualizace-a-kontejnerizace) - Od VirtualBoxu po Docker Compose.  
 * [02-systemove-programovani/](./02-systemove-programovani) - Python a Bash pro správu serverů.  
-* [03-mobilni-klient/](./03-mobilni-klient) - Android aplikace komunikující s naším serverem.
+* [03-mobilni-klient/](./03-mobilni-vyvoj) - Android aplikace komunikující s naším serverem.
