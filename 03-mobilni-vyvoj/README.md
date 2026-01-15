@@ -94,47 +94,47 @@ Repozitář používá **větve (branches)** pro každou lekci. Pokud se v návo
 ## **Obsah kurzu**
 
 * **[01. Úvod do Android Studia](https://github.com/TomasRacil/MyFirstAndroidApp/tree/01-starter)**
-* Struktura projektu, Gradle, Android Manifest.
-* První spuštění na emulátoru vs. fyzickém zařízení.
+  * Struktura projektu, Gradle, Android Manifest.
+  * První spuštění na emulátoru vs. fyzickém zařízení.
 
 * **[02. Tvorba UI (XML Layouts)](https://github.com/TomasRacil/MyFirstAndroidApp/tree/02-ui-layouts)**
-* LinearLayout vs. ConstraintLayout.
-* Práce s vizuálním editorem.
-* Tvorba formuláře (`EditText`, `Button`, `TextView`).
+  * LinearLayout vs. ConstraintLayout.
+  * Práce s vizuálním editorem.
+  * Tvorba formuláře (`EditText`, `Button`, `TextView`).
 
 * **[03. Logika a Interaktivita](https://github.com/TomasRacil/MyFirstAndroidApp/tree/03-logic-basic)**
-* Propojení XML s Kotlin kódem (`findViewById` vs. `ViewBinding`).
-* Obsluha kliknutí (Listeners).
-* Zobrazování "Toast" zpráv.
+  * Propojení XML s Kotlin kódem (`findViewById` vs. `ViewBinding`).
+  * Obsluha kliknutí (Listeners).
+  * Zobrazování "Toast" zpráv.
 
 * **[04. Navigace a Životní cyklus](https://github.com/TomasRacil/MyFirstAndroidApp/tree/04-lifecycle-intents)**
-* Metody `onCreate`, `onPause`, `onResume`.
-* Přechod mezi obrazovkami (Intent).
-* Předávání dat mezi aktivitami.
+  * Metody `onCreate`, `onPause`, `onResume`.
+  * Přechod mezi obrazovkami (Intent).
+  * Předávání dat mezi aktivitami.
 
 * **[05. Architektura (ViewModel)](https://github.com/TomasRacil/MyFirstAndroidApp/tree/05-lifecycle-fix)**
-* ViewModel a zachování dat při rotaci obrazovky.
-* Oddělení logiky od UI komponent.
+  * ViewModel a zachování dat při rotaci obrazovky.
+  * Oddělení logiky od UI komponent.
 
 * **[06. Dynamické seznamy (RecyclerView)](https://github.com/TomasRacil/MyFirstAndroidApp/tree/06-chat-ui)**
-* **Adapter Pattern**: Propojení dat s grafickým rozhraním.
-* Vlastní design položky (chatovací bublina) v XML.
-* Recyklace prvků a efektivní zobrazení velkého množství dat.
+  * **Adapter Pattern**: Propojení dat s grafickým rozhraním.
+  * Vlastní design položky (chatovací bublina) v XML.
+  * Recyklace prvků a efektivní zobrazení velkého množství dat.
 
 * **[07. Trvalé ukládání (SharedPreferences)](https://github.com/TomasRacil/MyFirstAndroidApp/tree/07-settings)**
-* Ukládání konfiguračních dat (IP adresa, port).
-* Práce s dvojicemi Klíč–Hodnota.
-* Persistence: Data, která přežijí i restart aplikace.
+  * Ukládání konfiguračních dat (IP adresa, port).
+  * Práce s dvojicemi Klíč–Hodnota.
+  * Persistence: Data, která přežijí i restart aplikace.
 
 * **[08. Síťová komunikace a Coroutines](https://github.com/TomasRacil/MyFirstAndroidApp/tree/08-networking-send)**
-* **Kotlin Coroutines**: Proč nesmí síť běžet na hlavním vlákně (`Dispatchers.IO`).
-* Odesílání dat přes TCP Sockets.
-* Správa oprávnění (Internet Permission) v Manifestu.
+  * **Kotlin Coroutines**: Proč nesmí síť běžet na hlavním vlákně (`Dispatchers.IO`).
+  * Odesílání dat přes TCP Sockets.
+  * Správa oprávnění (Internet Permission) v Manifestu.
 
 * **[09. Příjem zpráv a LiveData](https://github.com/TomasRacil/MyFirstAndroidApp/tree/09-networking-read)**
-* Čtení ze socketu v reálném čase (nekonečná smyčka).
-* **LiveData**: Jak dát aktivitě vědět, že dorazila nová zpráva.
-* Kompletní propojení: Síť -> ViewModel -> UI.
+  * Čtení ze socketu v reálném čase (nekonečná smyčka).
+  * **LiveData**: Jak dát aktivitě vědět, že dorazila nová zpráva.
+  * Kompletní propojení: Síť -> ViewModel -> UI.
 
 ## **Emulátor vs. Fyzický telefon**
 
